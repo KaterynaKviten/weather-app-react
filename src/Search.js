@@ -48,7 +48,7 @@ export default function Search() {
   let [descrip, setDescrip] = useState(null);
   let [wind, setWind] = useState(null);
   let [icon, setIcon] = useState(null);
-  let [triggerQuery, setTriggerQuery] = useState(null);
+  let [isPressedSearch, setPressedSearch] = useState(false);
   React.useEffect(() => {
     function showTemp(response) {
       setCity(response.data.name);
@@ -61,14 +61,15 @@ export default function Search() {
       setIcon(response.data.weather[0].icon);
     }
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4eba877dd9ec83758a66d7b35703d7cf&units=metric`;
-    if (city !== "") {
+    if (isPressedSearch === true) {
+      setPressedSearch(false);
       axios.get(url).then(showTemp);
     }
-  }, [triggerQuery]);
+  }, [isPressedSearch, city]);
 
   function citySearch(event) {
     event.preventDefault();
-    setTriggerQuery({});
+    setPressedSearch(true);
   }
 
   function userInput(event) {
